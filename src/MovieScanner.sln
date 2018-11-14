@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28302.56
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieScanner", "MovieScanner\MovieScanner.csproj", "{5414CE5B-FD9D-4B68-9934-E63CA865FC85}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5414CE5B-FD9D-4B68-9934-E63CA865FC85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5414CE5B-FD9D-4B68-9934-E63CA865FC85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5414CE5B-FD9D-4B68-9934-E63CA865FC85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5414CE5B-FD9D-4B68-9934-E63CA865FC85}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {28BE59BD-FC22-4488-BEAB-BA3C2B4C31B9}
+	EndGlobalSection
+EndGlobal
