@@ -1,4 +1,9 @@
 ﻿using System;
+using Microsoft.Extensions.DependencyInjection;
+using MovieScanner.Core;
+using MovieScanner.DataStorage;
+using MovieScanner.Services;
+using MovieScanner.UserInterface;
 
 namespace MovieScanner
 {
@@ -6,7 +11,19 @@ namespace MovieScanner
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var services = new ServiceCollection()
+                .AddTransient<IMovieStorage, XmlMovieStorage>()
+                .AddTransient<IMovieScan, MovieScan>()
+                .AddTransient<IMovieService, MovieService>()
+                .AddTransient<IArgsParser, ArgsParser>()
+                .BuildServiceProvider();
+
+            var parser = services.GetService<IArgsParser>();
+            // TODO : Parse args
+            var movieService = services.GetService<IMovieService>();
+            // TODO : Execute corresponding command
+
+            Console.ReadKey();
         }
     }
 }
