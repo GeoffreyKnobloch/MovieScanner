@@ -12,7 +12,7 @@ namespace MovieScanner.Core
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        List<Movie> ScanMForMovies(string path);
+        List<Movie> ScanForMovies(string path);
 
     }
 }

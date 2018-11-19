@@ -1,17 +1,21 @@
-﻿using System;
-using Microsoft.Extensions.DependencyInjection;
-using MovieScanner.Core;
-using MovieScanner.DataStorage;
-using MovieScanner.Services;
-using MovieScanner.UserInterface;
-
-namespace MovieScanner
+﻿namespace MovieScanner
 {
+    using System;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
+    using Core;
+    using DataStorage;
+    using Services;
+    using UserInterface;
+
     class Program
     {
         static void Main(string[] args)
         {
+
             var services = new ServiceCollection()
+                .AddLogging(configure => { configure.AddConsole(); })
+                .AddXmlMovieStorage(options => options.StoragePath = "storagePath")
                 .AddTransient<IMovieStorage, XmlMovieStorage>()
                 .AddTransient<IMovieScan, MovieScan>()
                 .AddTransient<IMovieService, MovieService>()
