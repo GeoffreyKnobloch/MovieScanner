@@ -9,16 +9,21 @@
     using UserInterface;
     public static class DependencyInjection
     {
-        public static IServiceProvider GetServiceProvider()
+        public static IServiceProvider GetServiceProvider(string logPath)
         {
+            string logFile = $"{logPath}\\MovieScanner.log";
+
             return new ServiceCollection()
-                 .AddLogging(configure => { configure.AddConsole(); })
-                 .AddXmlMovieStorage(options => options.StoragePath = "storagePath")
-                 .AddTransient<IMovieStorage, XmlMovieStorage>()
-                 .AddTransient<IMovieScan, MovieScan>()
-                 .AddTransient<IMovieService, MovieService>()
-                 .AddTransient<IArgsParser, ArgsParser>()
-                 .BuildServiceProvider();
+                .AddSingleton(new LoggerFactory()
+                    .AddConsole()
+                    .AddFile(logFile))
+                .AddLogging()
+                .AddXmlMovieStorage(options => options.StoragePath = "storagePath")
+                .AddTransient<IMovieStorage, XmlMovieStorage>()
+                .AddTransient<IMovieScan, MovieScan>()
+                .AddTransient<IMovieService, MovieService>()
+                .AddTransient<IArgsParser, ArgsParser>()
+                .BuildServiceProvider();
 
         }
     }

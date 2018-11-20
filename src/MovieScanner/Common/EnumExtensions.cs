@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
-
-namespace MovieScanner.Common
+﻿namespace MovieScanner.Common
 {
+    using System;
+    using System.ComponentModel;
+
+    // Code from https://wmwood.net/2015/12/18/quick-tip-enum-to-description-in-csharp/
+
     public static class EnumExtensions
     {
         public static string GetDescription<T>(this T enumerationValue) where T : struct
@@ -12,7 +12,7 @@ namespace MovieScanner.Common
             var type = enumerationValue.GetType();
             if (!type.IsEnum)
             {
-                throw new ArgumentException($"{nameof(enumerationValue)} must be of Enum type", nameof(enumerationValue));
+                throw new ArgumentException($"{nameof(enumerationValue)} must be of enum type", nameof(enumerationValue));
             }
             var memberInfo = type.GetMember(enumerationValue.ToString());
             if (memberInfo.Length > 0)

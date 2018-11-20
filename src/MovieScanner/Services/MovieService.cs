@@ -23,7 +23,8 @@ namespace MovieScanner.Services
 
         public List<Movie> ScanMoviesAndStoreThem(StorageMode storageMode, params string[] path)
         {
-            throw new NotImplementedException();
+            _logger.LogInformation($"Scanning {path[0]}.");
+            return null;
         }
     }
 }
