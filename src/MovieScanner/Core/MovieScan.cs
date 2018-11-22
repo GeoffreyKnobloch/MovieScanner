@@ -74,7 +74,7 @@
                     Path = filePath,
                     Title = Path.GetFileNameWithoutExtension(filePath),
                     Size = fileInfo.Length,
-                    Resolution = Resolution.Unknown.GetDescription()
+                    Resolution = Resolution.Unknown
                 };
                 _logger.LogInformation($"Movie found : {movie.Title}");
             }

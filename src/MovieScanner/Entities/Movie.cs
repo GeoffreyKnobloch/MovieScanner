@@ -10,7 +10,7 @@ namespace MovieScanner.Entities
         public double Size { get; set; }
         public string Path { get; set; }
         public string HardDrive { get; set; }
-        public string Resolution { get; set; }
+        public Resolution Resolution { get; set; }
 
     }
 }

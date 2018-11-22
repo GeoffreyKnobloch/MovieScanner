@@ -19,7 +19,7 @@
                     .AddFile(logFile))
                 .AddLogging()
                 .AddXmlMovieStorage(options => options.StoragePath = "storagePath")
-                .AddTransient<IMovieStorage, XmlMovieStorage>()
+                .AddTransient<IMovieStorage, JsonFileMovieStorage>()
                 .AddTransient<IMovieScan, MovieScan>()
                 .AddTransient<IMovieService, MovieService>()
                 .AddTransient<IArgsParser, ArgsParser>()

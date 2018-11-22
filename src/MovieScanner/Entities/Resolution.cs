@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MovieScanner.Entities
 {
-    enum Resolution
+    public enum Resolution
     {
         [Description("Unknown")]
         Unknown = 0,
