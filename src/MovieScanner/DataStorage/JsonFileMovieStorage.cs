@@ -41,7 +41,7 @@ namespace MovieScanner.DataStorage
             var numberOfWritesNecessary = jsonMoviesBytes.Length / bufferMaxLength;
             numberOfWritesNecessary = numberOfWritesNecessary == 0 ? 1 : numberOfWritesNecessary;
             
-            using (var fileStream = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.Write))
+            using (var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
             {
                 int offset = 0;
                 int numberOfWrites = 0;
@@ -59,7 +59,7 @@ namespace MovieScanner.DataStorage
                     }
 
                     await fileStream.WriteAsync(jsonMoviesBytes , offset , chunkToWrite , ct);
-
+                    
 
                     numberOfWrites++;
                     offset += chunkToWrite;
@@ -86,6 +86,7 @@ namespace MovieScanner.DataStorage
 
         public Task<List<Movie>> GetStoredMoviesAsync(string filePath, CancellationToken ct)
         {
+            _logger.LogInformation($"Retrieving movies from {filePath}");
             throw new NotImplementedException();
         }
 

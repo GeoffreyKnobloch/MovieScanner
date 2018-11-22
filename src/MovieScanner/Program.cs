@@ -1,18 +1,20 @@
-﻿using MovieScanner.Entities;
-
-namespace MovieScanner
+﻿namespace MovieScanner
 {
     using System;
+    using System.Threading;
+    using System.Threading.Tasks;
     using Microsoft.Extensions.DependencyInjection;
     using Common;
     using Services;
     using UserInterface;
+    using Entities;
 
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            string pathToScan = "L:\\Film";
+            string pathToScan = "E:\\Nvidia_shield\\Movies"; /*"L:\\Film"*/
+            CancellationToken ct = new CancellationToken();
 
             var services = DependencyInjection.GetServiceProvider(logPath: pathToScan);
 
@@ -25,8 +27,7 @@ namespace MovieScanner
             var movieService = services.GetService<IMovieService>();
             // TODO : Executes corresponding command
 
-            movieService.ScanMoviesAndStoreThem(StorageMode.Override,
-                $"{pathToScan}");
+            await movieService.ScanMoviesAndStoreThemAsync(StorageMode.Override, ct, pathToScan);
 
             Console.ReadKey();
         }

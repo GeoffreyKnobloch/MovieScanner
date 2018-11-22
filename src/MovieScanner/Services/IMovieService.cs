@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace MovieScanner.Services
 {
@@ -11,9 +13,10 @@ namespace MovieScanner.Services
         /// Scan movies, store them, and return list of new movies inserted
         /// </summary>
         /// <param name="storageMode"></param>
-        /// <param name="path"></param>
+        /// <param name="ct"></param>
+        /// <param name="paths"></param>
         /// <returns></returns>
-        List<Movie> ScanMoviesAndStoreThem(StorageMode storageMode, params string[] path);
+        Task<List<Movie>> ScanMoviesAndStoreThemAsync(StorageMode storageMode, CancellationToken ct, params string[] paths);
         
     }
 }

@@ -1,12 +1,12 @@
 ﻿namespace MovieScanner.Core
 {
     using System;
+    using System.Threading;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using Microsoft.Extensions.Logging;
-    using Common;
-
+    using Rules;
     using Entities;
     public class MovieScan : IMovieScan
     {
@@ -27,29 +27,41 @@
             };
         }
 
-        public List<Movie> ScanForMovies(string path)
+        public List<Movie> ScanForMovies(string path, CancellationToken ct)
         {
             List<Movie> movies = new List<Movie>();
-            ScanForMovies(movies, path);
+            ScanForMovies(movies, path, ct);
             return movies;
         }
 
-        private void ScanForMovies(List<Movie> movies, string path)
+        private void ScanForMovies(List<Movie> movies, string path, CancellationToken ct)
         {
+            _logger.LogInformation($"Scan {path} started");
+
+            string hardDrive = GeneralRules.GetHardDrive(path);
+
             try
             {
-                foreach (var filePath in Directory.GetFiles(path))
+                foreach (var filePath in Directory.EnumerateFiles(path))
                 {
-                    if (TryGetMovie(filePath, out Movie movie))
+                    if (TryGetMovie(filePath, hardDrive , out Movie movie))
                     {
                         movies.Add(movie);
                     }
                 }
 
-                foreach (var directoryPath in Directory.GetDirectories(path))
+                ct.ThrowIfCancellationRequested();
+
+                foreach (var directoryPath in Directory.EnumerateDirectories(path))
                 {
-                    ScanForMovies(movies, directoryPath);
+                    ScanForMovies(movies, directoryPath, ct);
                 }
+
+                ct.ThrowIfCancellationRequested();
+            }
+            catch (OperationCanceledException oce)
+            {
+                _logger.LogError(oce, $"Operation was cancelled while scanning movies in {path}");
             }
             catch (Exception e)
             {
@@ -59,7 +71,7 @@
 
 
         
-        private bool TryGetMovie(string filePath, out Movie movie)
+        private bool TryGetMovie(string filePath, string hardDrive, out Movie movie)
         {
             var fileInfo = new FileInfo(filePath);
             if (!_validMovieExtensions.Contains(fileInfo.Extension))
@@ -74,7 +86,8 @@
                     Path = filePath,
                     Title = Path.GetFileNameWithoutExtension(filePath),
                     Size = fileInfo.Length,
-                    Resolution = Resolution.Unknown
+                    Resolution = Resolution.Unknown,
+                    HardDrive = hardDrive
                 };
                 _logger.LogInformation($"Movie found : {movie.Title}");
             }

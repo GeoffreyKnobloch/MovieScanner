@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using MovieScanner.Entities;
-
-namespace MovieScanner.Core
+﻿namespace MovieScanner.Core
 {
+    using System.Collections.Generic;
+    using System.Threading;
+    using Entities;
+
     public interface IMovieScan
     {
         /// <summary>
@@ -12,7 +11,7 @@ namespace MovieScanner.Core
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        List<Movie> ScanForMovies(string path);
+        List<Movie> ScanForMovies(string path, CancellationToken ct);
 
     }
 }
