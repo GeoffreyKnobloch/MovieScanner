@@ -1,4 +1,6 @@
-﻿namespace MovieScanner
+﻿using System.Collections.Generic;
+
+namespace MovieScanner
 {
     using System;
     using System.Threading;
@@ -13,21 +15,45 @@
     {
         static async Task Main(string[] args)
         {
-            string pathToScan = "E:\\Nvidia_shield\\Movies"; /*"L:\\Film"*/
             CancellationToken ct = new CancellationToken();
+            
+            var parser = new ArgsParser();
+            (Command Command, List<string> Arguments, UserOptions Options) userInput = (Command.Unknown, null, null);
+            try
+            {
+                userInput = parser.GetCommand(args);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Console.WriteLine($"Try {Command.Help} command by typing MovieScan {Command.Help}");
+            }
 
-            var services = DependencyInjection.GetServiceProvider(logPath: pathToScan);
 
-            var parser = services.GetService<IArgsParser>();
-            // TODO : Parse args
-            // REVIEW : pathToScan must be retrieved without ArgsParser service because
-            // we need pathToScan to configure logging services in order to put log file where we scan ...
-                                     
+            switch (userInput.Command)
+            {
+                case Command.Unknown:
+                    // When user input parsing threw an exception.
+                    break;
+                case (Command.Scan):
+                case (Command.ScanMultiple):
+                    {
+                        var services = DependencyInjection.GetServiceProvider(logPath: userInput.Arguments[0]);
+                        var movieService = services.GetService<IMovieService>();
 
-            var movieService = services.GetService<IMovieService>();
-            // TODO : Executes corresponding command
-
-            await movieService.ScanMoviesAndStoreThemAsync(StorageMode.Override, ct, pathToScan);
+                        await movieService.ScanMoviesAndStoreThemAsync(userInput.Options.StorageMode, ct,
+                            userInput.Arguments.ToArray());
+                        break;
+                    }
+                case Command.Exists:
+                    // TODO
+                    break;
+                case Command.Help:
+                    // TODO
+                    break;
+                default:
+                    break;
+            }
 
             Console.ReadKey();
         }

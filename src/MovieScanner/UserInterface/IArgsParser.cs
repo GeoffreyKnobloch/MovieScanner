@@ -8,6 +8,6 @@ namespace MovieScanner.UserInterface
     interface IArgsParser
     {
         // Parse args to know what to do
-        (Command, string[]) GetCommand(string[] userInput); // TODO : Define how arg parsing will work
+        (Command command, List<string> arguments, UserOptions options) GetCommand(string[] userInput); // TODO : Define how arg parsing will work
     }
 }
